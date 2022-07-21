@@ -1,5 +1,7 @@
+// core modules (private)
 mod core;
-// export public "event" modules
+mod utils;
+// export modules
 pub mod lib;
-pub mod types;
+pub mod types; // only event related types
 pub mod views;

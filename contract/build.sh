@@ -1,1 +1,1 @@
-RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release
+RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release && mv target/wasm32-unknown-unknown/release/raffler_dacade_contract.wasm out/main.wasm

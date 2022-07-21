@@ -1,15 +1,14 @@
-use event::types::{Event, EventId, EventPrize};
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedSet};
 use near_sdk::{near_bindgen, AccountId, PanicOnDefault};
-use utils::to_storage_key;
 
-// import modules
-mod event;
-mod types;
 mod utils;
+// import all modules
+mod event;
+mod types; // common types that can be used anywhere in the app
 
-near_sdk::setup_alloc!();
+use event::types::{Event, EventId, EventPrize};
+use utils::to_storage_key;
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
@@ -23,6 +22,7 @@ pub struct Contract {
 
 #[near_bindgen]
 impl Contract {
+    #[init]
     pub fn new() -> Self {
         Self {
             next_event_id: 1,
@@ -33,6 +33,3 @@ impl Contract {
         }
     }
 }
-
-#[cfg(test)]
-mod tests {}
