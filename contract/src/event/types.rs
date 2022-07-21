@@ -6,12 +6,15 @@ use near_sdk::{
     serde::{Deserialize, Serialize},
     AccountId,
 };
+use witgen::witgen;
 
 // min prize amount is 0.1N
 pub const MIN_NEAR_PRIZE_AMOUNT: u128 = 100_000_000_000_000_000_000_000;
 
+#[witgen]
 pub type EventId = u64;
 
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize)]
 pub struct Event {
     pub id: EventId,
@@ -25,9 +28,7 @@ pub struct Event {
     pub prizes: Vector<Prize>,
 }
 
-/**
- * retrieved by view methods
- */
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Debug)]
 #[serde(crate = "near_sdk::serde")]
 pub struct JsonEvent {
@@ -40,6 +41,7 @@ pub struct JsonEvent {
     pub participants_amount: u64,
 }
 
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Debug, PartialEq)]
 #[serde(crate = "near_sdk::serde")]
 pub enum EventStatus {
@@ -62,6 +64,7 @@ impl std::fmt::Display for EventStatus {
     }
 }
 
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(crate = "near_sdk::serde", tag = "type")]
 pub struct EventPrize {
@@ -69,12 +72,14 @@ pub struct EventPrize {
     pub prize_index: u64,
 }
 
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone, Debug)]
 #[serde(crate = "near_sdk::serde", tag = "type")]
 pub enum PrizeType {
     NEAR { amount: U128 },
 }
 
+#[witgen]
 #[derive(BorshDeserialize, BorshSerialize, Serialize, Deserialize, Clone, Debug)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Prize {

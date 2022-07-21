@@ -8,8 +8,11 @@ use crate::types::TimestampMs;
 use crate::utils::*;
 use crate::*;
 
+use witgen::witgen;
+
 #[near_bindgen]
 impl Contract {
+    #[witgen]
     #[payable]
     pub fn add_event(
         &mut self,
@@ -90,6 +93,7 @@ impl Contract {
         event_id
     }
 
+    #[witgen]
     pub fn set_event_time(
         &mut self,
         event_id: EventId,
@@ -118,6 +122,7 @@ impl Contract {
         self.events.insert(&event_id, &event);
     }
 
+    #[witgen]
     pub fn set_event_visible(&mut self, event_id: EventId) {
         let mut event = self.internal_get_event(&event_id);
 
@@ -135,6 +140,7 @@ impl Contract {
         self.events.insert(&event_id, &event);
     }
 
+    #[witgen]
     #[payable]
     pub fn add_near_prize(&mut self, event_id: EventId, amount: U128) {
         assert_at_least_one_yocto();
@@ -184,6 +190,7 @@ impl Contract {
         }
     }
 
+    #[witgen]
     #[payable]
     pub fn join_event(&mut self, event_id: EventId) {
         assert_at_least_one_yocto();
@@ -215,6 +222,7 @@ impl Contract {
         refund_deposit(storage_used);
     }
 
+    #[witgen]
     #[payable]
     pub fn raffle_event_prizes(&mut self, event_id: EventId) -> Vec<EventPrize> {
         assert_at_least_one_yocto();
@@ -240,6 +248,7 @@ impl Contract {
         prizes
     }
 
+    #[witgen]
     pub fn claim_prize(&mut self, prize: EventPrize) {
         let mut unclaimed_prizes = self
             .unclaimed_prizes_by_account

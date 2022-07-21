@@ -2,13 +2,15 @@ use crate::types::Pagination;
 use crate::utils::unwrap_pagination;
 use crate::*;
 use near_sdk::collections::UnorderedSet;
-use near_sdk::AccountId;
+use near_sdk::{AccountId};
 
 use super::types::{EventId, EventPrize, JsonEvent};
 use super::utils::get_event_json;
+use witgen::witgen;
 
 #[near_bindgen]
 impl Contract {
+    #[witgen]
     pub fn get_owner_events(
         &self,
         account_id: AccountId,
@@ -31,6 +33,7 @@ impl Contract {
             .collect::<Vec<JsonEvent>>()
     }
 
+    #[witgen]
     pub fn get_participant_events(
         &self,
         account_id: AccountId,
@@ -53,6 +56,7 @@ impl Contract {
             .collect::<Vec<JsonEvent>>()
     }
 
+    #[witgen]
     pub fn get_event(&self, event_id: EventId) -> Option<JsonEvent> {
         let event = self.events.get(&event_id);
 
@@ -62,6 +66,7 @@ impl Contract {
         }
     }
 
+    #[witgen]
     pub fn get_account_unclaimed_prizes(
         &self,
         account_id: AccountId,
@@ -82,6 +87,7 @@ impl Contract {
             .collect::<Vec<EventPrize>>()
     }
 
+    #[witgen]
     pub fn is_user_joined_event(&self, account_id: AccountId, event_id: EventId) -> bool {
         let wrapped_joined_events = self.events_by_participant.get(&account_id);
 

@@ -2,6 +2,8 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedSet};
 use near_sdk::{near_bindgen, AccountId, PanicOnDefault};
 
+use witgen::witgen;
+
 mod utils;
 // import all modules
 mod event;
@@ -10,6 +12,7 @@ mod types; // common types that can be used anywhere in the app
 use event::types::{Event, EventId, EventPrize};
 use utils::to_storage_key;
 
+#[witgen]
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
 pub struct Contract {
@@ -22,6 +25,7 @@ pub struct Contract {
 
 #[near_bindgen]
 impl Contract {
+    #[witgen]
     #[init]
     pub fn new() -> Self {
         Self {
