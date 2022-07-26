@@ -5,13 +5,13 @@ import { Skeleton } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 
 export type SkeletonWrapperProps = {
-  showIf: boolean;
+  wrapOn: boolean;
 } & SkeletonProps;
 
 const SkeletonWrapper: React.FC<SkeletonWrapperProps> = (
   props
 ): JSX.Element => {
-  if (!props.showIf) return <>{props.children}</>;
+  if (!props.wrapOn) return <>{props.children}</>;
 
   return (
     <Skeleton

@@ -1,7 +1,6 @@
 import { contractId } from "config";
-import { AccountEntity } from "entities/AccountEntity";
 import { injectable } from "inversify";
-import { Contract } from "types";
+import { Account, Contract } from "types";
 
 @injectable()
 export class ContractService {
@@ -11,7 +10,7 @@ export class ContractService {
     this._raffler = null;
   }
 
-  public raffler(account: AccountEntity): Contract {
+  public raffler(account: Account): Contract {
     if (!this._raffler) {
       this._raffler = new Contract(account, contractId);
     }

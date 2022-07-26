@@ -1,31 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 
 import { observer } from "mobx-react-lite";
-import Head from "next/head";
 
 import { NextPageWithLayout } from "./_app.page";
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import EventList from "components/EventList";
+import SkeletonWrapper from "components/SkeletonWrapper";
 
 const HomePage = (): JSX.Element => {
+  const [isOwnedEventsLoading, setOwnedEventsLoading] = useState(false);
+  const [isParticipatedEventsLoading, setParticipatedEventsLoading] =
+    useState(false);
   const { authStore, eventStore } = useRootStore();
-
-  const object = {
-    isLoggedIn: authStore.isLoggedIn,
-    events: eventStore.allEvents,
-    owned: eventStore.ownedEvents,
-    participated: eventStore.participatedEvents,
-  };
 
   React.useEffect(() => {
     if (!authStore.isLoggedIn) return;
 
     const afterAuthEffect = async (): Promise<void> => {
-      console.log("load events");
+      setOwnedEventsLoading(true);
+      setParticipatedEventsLoading(true);
 
       await eventStore.setOwnedEvents();
+      setOwnedEventsLoading(false);
+
       await eventStore.setParticipatedEvents();
+      setParticipatedEventsLoading(false);
     };
 
     afterAuthEffect();
@@ -33,9 +40,89 @@ const HomePage = (): JSX.Element => {
 
   return (
     <>
-      <div>
-        <pre>{JSON.stringify(object, null, 2)}</pre>
-      </div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+          }}
+        >
+          <Typography color="common.white" variant="h5" textAlign="center">
+            Your created events
+          </Typography>
+
+          {!authStore.isLoggedIn && (
+            <Card sx={{ marginY: 2 }} variant="outlined">
+              <CardContent>
+                <Typography textAlign="center">
+                  Only authorized users can see their events, please connect
+                  your wallet
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          <SkeletonWrapper wrapOn={isOwnedEventsLoading}>
+            {authStore.isLoggedIn && (
+              <EventList items={eventStore.ownedEvents} showEditButton />
+            )}
+
+            {authStore.isLoggedIn && eventStore.ownedEvents.length === 0 && (
+              <Card sx={{ marginY: 2 }} variant="outlined">
+                <CardContent>
+                  <Typography textAlign="center">
+                    There's no events to display
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+          </SkeletonWrapper>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 360,
+          }}
+        >
+          <Typography color="common.white" variant="h5" textAlign="center">
+            Participated events
+          </Typography>
+
+          {!authStore.isLoggedIn && (
+            <Card sx={{ marginY: 2 }} variant="outlined">
+              <CardContent>
+                <Typography textAlign="center">
+                  Only authorized users can see events they're participating,
+                  please connect your wallet
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          <SkeletonWrapper wrapOn={isParticipatedEventsLoading}>
+            {authStore.isLoggedIn && (
+              <EventList items={eventStore.participatedEvents} showEditButton />
+            )}
+
+            {authStore.isLoggedIn &&
+              eventStore.participatedEvents.length === 0 && (
+                <Card sx={{ marginY: 2 }} variant="outlined">
+                  <CardContent>
+                    <Typography textAlign="center">
+                      There's no events to display
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )}
+          </SkeletonWrapper>
+        </Box>
+      </Box>
     </>
   );
 };

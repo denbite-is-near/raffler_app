@@ -85,7 +85,7 @@ const Layout: React.FC = (props): JSX.Element => {
           </Link>
         </Box>
         <Box>
-          <SkeletonWrapper showIf={!authStore.isReady}>
+          <SkeletonWrapper wrapOn={!authStore.isReady}>
             {!authStore.isLoggedIn && <ConnectWalletButton size="large" />}
             {authStore.isLoggedIn && <AccountMenuButton size="large" />}
           </SkeletonWrapper>
