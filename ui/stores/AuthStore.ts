@@ -4,12 +4,13 @@ import { makeAutoObservable } from "mobx";
 import WalletService from "services/WalletService";
 import { AccountStore } from "./AccountStore";
 import { AccountEntity } from "entities/AccountEntity";
-import { AccountId } from "types";
+import { Account, AccountId } from "types";
 
 @injectable()
 export class AuthStore {
   public accountId: AccountId | null;
   public authInProgress: boolean;
+  public isReady: boolean;
 
   constructor(
     @inject(TYPES.WalletService) private walletService: WalletService,
@@ -17,6 +18,7 @@ export class AuthStore {
   ) {
     this.authInProgress = false;
     this.accountId = null;
+    this.isReady = false;
 
     makeAutoObservable(this, {}, { autoBind: true });
   }
@@ -56,12 +58,17 @@ export class AuthStore {
 
   private resetAuthAccount = (): void => {
     this.setAccountId(null);
+
+    this.isReady = true;
   };
 
-  private setAuthAccount = async (account: AccountEntity): Promise<void> => {
-    await this.accountStore.setAccount(account.accountId);
+  private setAuthAccount = async (account: Account): Promise<void> => {
+    this.accountStore.upsertAccount(account);
+    await this.accountStore.updateAccountBalance(account);
 
     this.setAccountId(account.accountId);
+
+    this.isReady = true;
   };
 
   public updateAuthAccount = async (): Promise<void> => {
@@ -73,7 +80,9 @@ export class AuthStore {
       walletAccount.walletConnection.isSignedIn() &&
       walletAccount.walletConnection.getAccountId();
 
-    if (!walletIsLoggedIn) return this.resetAuthAccount();
+    if (!walletIsLoggedIn) {
+      return this.resetAuthAccount();
+    }
 
     await this.setAuthAccount(walletAccount);
   };

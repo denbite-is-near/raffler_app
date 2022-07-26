@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
 import {
   Avatar,
@@ -9,17 +9,17 @@ import {
   MenuItem,
   Tooltip,
   ListItemText,
-} from '@mui/material';
-import type { IconButtonProps } from '@mui/material';
-import { observer } from 'mobx-react-lite';
-import { Logout } from '@mui/icons-material';
+} from "@mui/material";
+import type { IconButtonProps } from "@mui/material";
+import { observer } from "mobx-react-lite";
+import { Logout } from "@mui/icons-material";
 
-import { useRootStore } from 'providers/RootStoreContext';
-import nearProtocolLogoWhite from 'assets/images/near_logo.white.png';
-import NearAmount from 'components/NearAmount';
+import { useRootStore } from "providers/RootStoreContext";
+import nearProtocolLogoWhite from "assets/images/near_logo.white.png";
+import NearAmount from "components/NearAmount";
 
 type AccountMenuButtonProps = {
-  size?: IconButtonProps['size'];
+  size?: IconButtonProps["size"];
 };
 
 const AccountMenuButton = (props: AccountMenuButtonProps): JSX.Element => {
@@ -46,44 +46,37 @@ const AccountMenuButton = (props: AccountMenuButtonProps): JSX.Element => {
     <>
       <IconButton
         ref={anchorEl}
-        size={props.size || 'medium'}
+        size={props.size || "medium"}
         disableRipple
         disableTouchRipple
         onClick={openMenu}
-        aria-controls={isOpenMenu ? 'account-menu' : undefined}
+        aria-controls={isOpenMenu ? "account-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={isOpenMenu ? 'true' : undefined}
+        aria-expanded={isOpenMenu ? "true" : undefined}
       >
         <Tooltip title="Open account">
           <Avatar
             alt="Near protocol"
             variant="circular"
             sx={{
-              border: '2px white solid',
-              backgroundColor: '#f8faf820',
-              objectFit: 'cover',
+              border: "2px white solid",
+              backgroundColor: "#f8faf820",
+              objectFit: "cover",
             }}
             src={nearProtocolLogoWhite.src}
-          >
-            {/* <Image
-              quality={30}
-              layout="fill"
-              objectFit="cover"
-              src={nearProtocolLogoWhite}
-            /> */}
-          </Avatar>
+          />
         </Tooltip>
       </IconButton>
       <Menu
         anchorEl={anchorEl.current}
         id="account-menu"
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
         transitionDuration={400}
         open={isOpenMenu}
@@ -92,9 +85,9 @@ const AccountMenuButton = (props: AccountMenuButtonProps): JSX.Element => {
           elevation: 0,
           sx: {
             width: 256,
-            overflow: 'visible',
-            padding: '0.5rem',
-            backgroundColor: '#f9fbf9fa',
+            overflow: "visible",
+            padding: "0.5rem",
+            backgroundColor: "#f9fbf9fa",
           },
         }}
       >
@@ -105,7 +98,7 @@ const AccountMenuButton = (props: AccountMenuButtonProps): JSX.Element => {
           }}
           secondary={
             <NearAmount
-              amount={authStore.account?.balanceInNear || ''}
+              amount={authStore.account?.balanceInNear || ""}
               mode="black"
               boxProps={{ marginLeft: 2 }}
             />
@@ -116,7 +109,7 @@ const AccountMenuButton = (props: AccountMenuButtonProps): JSX.Element => {
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Disconnect
         </MenuItem>
       </Menu>
     </>

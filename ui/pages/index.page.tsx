@@ -4,11 +4,9 @@ import { observer } from "mobx-react-lite";
 import Head from "next/head";
 
 import { NextPageWithLayout } from "./_app.page";
-import ConnectWalletButton from "components/Buttons/ConnectWalletButton";
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
-import NextLink from "next/link";
-import { Link } from "@mui/material";
+import Layout from "components/Layout";
 
 const HomePage = (): JSX.Element => {
   const { authStore, eventStore } = useRootStore();
@@ -35,25 +33,6 @@ const HomePage = (): JSX.Element => {
 
   return (
     <>
-      <Head>
-        <title>Raffle App</title>
-      </Head>
-      {!authStore.isLoggedIn && <ConnectWalletButton />}
-      {authStore.isLoggedIn && (
-        <NextLink href="/create-event">
-          <Link variant="body2">Create own event</Link>
-        </NextLink>
-      )}
-      {authStore.isLoggedIn && (
-        <button
-          onClick={() => {
-            authStore.logout();
-            eventStore.reset();
-          }}
-        >
-          Logout
-        </button>
-      )}
       <div>
         <pre>{JSON.stringify(object, null, 2)}</pre>
       </div>
@@ -66,5 +45,9 @@ const ObservedHomePage = observer(HomePage);
 const WrappedHomePage: NextPageWithLayout = observer(
   withAuth(ObservedHomePage)
 );
+
+WrappedHomePage.getLayout = (page) => {
+  return <Layout>{page}</Layout>;
+};
 
 export default WrappedHomePage;

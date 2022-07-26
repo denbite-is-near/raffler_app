@@ -120,7 +120,7 @@ export class EventStore {
     const contract = this.contractService.raffler(account);
 
     await contract.add_event(args, {
-      attachedDeposit: new BN("4800000000000000000000"),
+      attachedDeposit: new BN("5000000000000000000000"),
       walletCallbackUrl: window.location.origin, // redirect to home page
     });
   };

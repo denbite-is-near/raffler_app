@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 import TYPES from "ioc/types";
 import { makeAutoObservable } from "mobx";
 import AccountService from "services/AccountService";
-import {  AccountId } from "types";
+import { Account, AccountId } from "types";
 
 @injectable()
 export class AccountStore {
@@ -20,6 +20,22 @@ export class AccountStore {
   public setAccount = async (accountId: AccountId): Promise<void> => {
     const account = await this.accountService.getAccount(accountId);
 
-    this.accounts.set(account.accountId, account);
+    this.upsertAccount(account);
+  };
+
+  public upsertAccount = (account: Account): void => {
+    const entity = AccountEntity.fromAccount(account);
+
+    this.accounts.set(account.accountId, entity);
+  };
+
+  public updateAccountBalance = async (account: Account): Promise<void> => {
+    const entity = this.accounts.get(account.accountId);
+
+    if (!entity) return;
+
+    const balance = await account.getAccountBalance();
+
+    entity.setYoctoBalance(balance.available);
   };
 }
