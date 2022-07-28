@@ -39,6 +39,7 @@ pub struct JsonEvent {
     pub status: EventStatus,
     pub prizes: Vec<Prize>,
     pub participants_amount: u64,
+    pub owner_id: AccountId,
 }
 
 #[witgen]

@@ -67,6 +67,7 @@ pub(super) fn get_event_json(event: &Event) -> JsonEvent {
         prizes: event.prizes.to_vec(),
         status: get_event_status(event),
         participants_amount: event.participants.len(),
+        owner_id: event.owner_id.clone(),
     }
 }
 

@@ -6,18 +6,13 @@ import { NextPageWithLayout } from "./_app.page";
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import EventList from "components/EventList";
 import SkeletonWrapper from "components/SkeletonWrapper";
 
 const HomePage = (): JSX.Element => {
-  const [isOwnedEventsLoading, setOwnedEventsLoading] = useState(false);
-  const [isParticipatedEventsLoading, setParticipatedEventsLoading] =
+  const [isOwnedEventsLoading, loadOwnedEventsLoading] = useState(false);
+  const [isParticipatedEventsLoading, loadParticipatedEventsLoading] =
     useState(false);
   const { authStore, eventStore } = useRootStore();
 
@@ -25,14 +20,14 @@ const HomePage = (): JSX.Element => {
     if (!authStore.isLoggedIn) return;
 
     const afterAuthEffect = async (): Promise<void> => {
-      setOwnedEventsLoading(true);
-      setParticipatedEventsLoading(true);
+      loadOwnedEventsLoading(true);
+      loadParticipatedEventsLoading(true);
 
-      await eventStore.setOwnedEvents();
-      setOwnedEventsLoading(false);
+      await eventStore.loadOwnedEvents();
+      loadOwnedEventsLoading(false);
 
-      await eventStore.setParticipatedEvents();
-      setParticipatedEventsLoading(false);
+      await eventStore.loadParticipatedEvents();
+      loadParticipatedEventsLoading(false);
     };
 
     afterAuthEffect();
@@ -107,7 +102,7 @@ const HomePage = (): JSX.Element => {
 
           <SkeletonWrapper wrapOn={isParticipatedEventsLoading}>
             {authStore.isLoggedIn && (
-              <EventList items={eventStore.participatedEvents} showEditButton />
+              <EventList items={eventStore.participatedEvents} />
             )}
 
             {authStore.isLoggedIn &&

@@ -75,6 +75,7 @@ export interface JsonEvent {
   status: EventStatus;
   prizes: Prize[];
   participants_amount: u64;
+  owner_id: AccountId;
 }
 export enum EventStatus {
   Configuration = "Configuration",

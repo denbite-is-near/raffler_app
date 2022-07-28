@@ -1,17 +1,18 @@
 import { BN } from "bn.js";
 import { contractId } from "config";
+import { EventEntity } from "entities/EventEntity";
 import { inject, injectable } from "inversify";
 import TYPES from "ioc/types";
 import { makeAutoObservable } from "mobx";
+import { computedFn } from "mobx-utils";
 import { ContractService } from "services/ContractService";
 import WalletService from "services/WalletService";
-import { AddEvent, EventId, JsonEvent } from "types";
+import { AddEvent, EventId, JsonEvent, SetEventTime } from "types";
 import { AuthStore } from "./AuthStore";
 
 @injectable()
 export class EventStore {
-  public events: Map<EventId, JsonEvent>;
-  public owned_event_ids: Set<EventId>;
+  public events: Map<EventId, EventEntity>;
   public participation_event_ids: Set<EventId>;
 
   constructor(
@@ -20,28 +21,24 @@ export class EventStore {
     @inject(TYPES.AuthStore) private authStore: AuthStore
   ) {
     this.events = new Map();
-    this.owned_event_ids = new Set();
     this.participation_event_ids = new Set();
 
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  get allEvents(): JsonEvent[] {
+  get allEvents(): EventEntity[] {
     return Array.from(this.events.values());
   }
 
-  get ownedEvents(): JsonEvent[] {
-    if (!this.authStore.account) return [];
+  get ownedEvents(): EventEntity[] {
+    const account = this.authStore.account;
 
-    const events = [...this.owned_event_ids].map((eventId) =>
-      this.events.get(eventId)
-    );
+    if (!account) return [];
 
-    // @ts-expect-error
-    return events.filter(Boolean);
+    return this.allEvents.filter((e) => e.isUserEventOwner(account.id));
   }
 
-  get participatedEvents(): JsonEvent[] {
+  get participatedEvents(): EventEntity[] {
     if (!this.authStore.account) return [];
 
     const events = [...this.participation_event_ids].map((eventId) =>
@@ -52,25 +49,38 @@ export class EventStore {
     return events.filter(Boolean);
   }
 
+  public areYouOwnerOfEvent = computedFn((id: EventId): boolean => {
+    const account = this.authStore.account;
+
+    if (!account) return false;
+
+    const event = this.getEvent(id);
+
+    if (!event) return false;
+
+    return event.isUserEventOwner(account.id);
+  });
+
+  public getEvent = computedFn((id: EventId): EventEntity | null => {
+    return this.events.get(id) || null;
+  });
+
   public reset = (): void => {
     this.events = new Map();
-    this.owned_event_ids = new Set();
     this.participation_event_ids = new Set();
   };
 
   public addEvent = (event: JsonEvent): void => {
-    this.events.set(event.id, event);
-  };
+    const entity = EventEntity.fromJsonEvent(event);
 
-  public addOwnedEvent = (eventId: EventId): void => {
-    this.owned_event_ids.add(eventId);
+    this.events.set(entity.id, entity);
   };
 
   public addParticipatedEvent = (eventId: EventId): void => {
     this.participation_event_ids.add(eventId);
   };
 
-  public setOwnedEvents = async (): Promise<void> => {
+  public loadOwnedEvents = async (): Promise<void> => {
     const account = await this.walletService.getWalletAccount();
 
     const contract = this.contractService.raffler(account);
@@ -81,11 +91,10 @@ export class EventStore {
 
     ownedEvents.forEach((e) => {
       this.addEvent(e);
-      this.addOwnedEvent(e.id);
     });
   };
 
-  public setParticipatedEvents = async (): Promise<void> => {
+  public loadParticipatedEvents = async (): Promise<void> => {
     const account = await this.walletService.getWalletAccount();
 
     const contract = this.contractService.raffler(account);
@@ -100,7 +109,7 @@ export class EventStore {
     });
   };
 
-  public setEvent = async (id: EventId): Promise<void> => {
+  public loadEvent = async (id: EventId): Promise<void> => {
     const account = await this.walletService.getWalletAccount();
 
     const contract = this.contractService.raffler(account);
@@ -120,8 +129,40 @@ export class EventStore {
     const contract = this.contractService.raffler(account);
 
     await contract.add_event(args, {
-      attachedDeposit: new BN("5000000000000000000000"),
+      attachedDeposit: new BN("7500000000000000000000"),
       walletCallbackUrl: window.location.origin, // redirect to home page
     });
+  };
+
+  public setEventVisible = async (eventId: EventId): Promise<void> => {
+    const account = await this.walletService.getWalletAccount();
+
+    const contract = this.contractService.raffler(account);
+
+    await contract.set_event_visible({
+      event_id: eventId,
+    });
+
+    await this.loadEvent(eventId);
+  };
+
+  public raffleEventPrizes = async (
+    eventId: EventId,
+    prizes: number
+  ): Promise<void> => {
+    const account = await this.walletService.getWalletAccount();
+
+    const contract = this.contractService.raffler(account);
+
+    await contract.raffle_event_prizes(
+      {
+        event_id: eventId,
+      },
+      {
+        attachedDeposit: new BN("4500000000000000000000").muln(prizes),
+      }
+    );
+
+    await this.loadEvent(eventId);
   };
 }
