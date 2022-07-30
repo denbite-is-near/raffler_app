@@ -1,5 +1,4 @@
 import { BN } from "bn.js";
-import { contractId } from "config";
 import { EventEntity } from "entities/EventEntity";
 import { inject, injectable } from "inversify";
 import TYPES from "ioc/types";
@@ -7,8 +6,10 @@ import { makeAutoObservable } from "mobx";
 import { computedFn } from "mobx-utils";
 import { ContractService } from "services/ContractService";
 import WalletService from "services/WalletService";
-import { AddEvent, EventId, JsonEvent, SetEventTime } from "types";
+import { AddEvent, EventId, JsonEvent } from "types";
 import { AuthStore } from "./AuthStore";
+
+const STORAGE_PRICE_PER_BYTE = "10000000000000000000"; // 0.0001N
 
 @injectable()
 export class EventStore {
@@ -59,6 +60,18 @@ export class EventStore {
     if (!event) return false;
 
     return event.isUserEventOwner(account.id);
+  });
+
+  public areYouParticipatingAtEvent = computedFn((id: EventId): boolean => {
+    const account = this.authStore.account;
+
+    if (!account) return false;
+
+    const event = this.getEvent(id);
+
+    if (!event) return false;
+
+    return this.participation_event_ids.has(id);
   });
 
   public getEvent = computedFn((id: EventId): EventEntity | null => {
@@ -123,6 +136,23 @@ export class EventStore {
     this.addEvent(event);
   };
 
+  public loadEventParticipatingStatus = async (id: EventId): Promise<void> => {
+    if (!this.authStore.account) return;
+
+    const account = await this.walletService.getWalletAccount();
+
+    const contract = this.contractService.raffler(account);
+
+    const isParticipating = await contract.is_user_joined_event({
+      event_id: id,
+      account_id: this.authStore.account.id,
+    });
+
+    if (!isParticipating) return;
+
+    this.addParticipatedEvent(id);
+  };
+
   public createEvent = async (args: AddEvent["args"]): Promise<void> => {
     const account = await this.walletService.getWalletAccount();
 
@@ -164,5 +194,29 @@ export class EventStore {
     );
 
     await this.loadEvent(eventId);
+  };
+
+  public joinEvent = async (event: EventEntity): Promise<void> => {
+    if (!this.authStore.account) return;
+
+    const account = await this.walletService.getWalletAccount();
+
+    const contract = this.contractService.raffler(account);
+
+    await contract.join_event(
+      {
+        event_id: event.id,
+      },
+      {
+        attachedDeposit: new BN(STORAGE_PRICE_PER_BYTE)
+          .muln(
+            this.authStore.account.id.length + 4 // to also cover structs
+          )
+          .add(new BN("2750000000000000000000"))
+          .muln(2),
+      }
+    );
+
+    this.addParticipatedEvent(event.id);
   };
 }

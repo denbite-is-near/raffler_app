@@ -10,12 +10,21 @@ import { NextPageWithLayout } from "pages/_app.page";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import SkeletonWrapper from "components/SkeletonWrapper";
-import { Box, Button, Paper, Stack, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Link,
+  Paper,
+  Stack,
+  styled,
+  Typography,
+} from "@mui/material";
 import { EventStatus } from "types";
 import { utils } from "near-api-js";
 import MessageCard from "components/MessageCard";
 import EditEventTimelineForm from "components/Forms/EditEventTimelineForm";
 import AddEventPrizeForm from "components/Forms/AddEventPrizeForm";
+import NextLink from "next/link";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -25,6 +34,7 @@ const ManageEventPage = (): JSX.Element => {
   const router = useRouter();
   const { authStore, eventStore, formStore } = useRootStore();
   const [isEventLoading, setIsEventLoading] = useState(false);
+  const [settingVisible, setSettingVisible] = useState(false);
 
   const eventId = parseInt(router.query.id as string);
 
@@ -62,7 +72,9 @@ const ManageEventPage = (): JSX.Element => {
   const { editEventTimeline, addEventPrize } = formStore;
 
   const handleSetEventVisible = async (): Promise<void> => {
+    setSettingVisible(true);
     await eventStore.setEventVisible(event.id);
+    setSettingVisible(false);
   };
 
   const handleRafflePrizes = async (): Promise<void> => {
@@ -138,7 +150,9 @@ const ManageEventPage = (): JSX.Element => {
               {event.prizes.length !== 0 && (
                 <Button
                   disabled={
-                    editEventTimeline.submitting || addEventPrize.submitting
+                    editEventTimeline.submitting ||
+                    addEventPrize.submitting ||
+                    settingVisible
                   }
                   color="primary"
                   variant="outlined"
@@ -154,10 +168,58 @@ const ManageEventPage = (): JSX.Element => {
           )}
 
           {event.status === EventStatus.Visible && (
-            <MessageCard message="Waiting for event to start" />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <MessageCard message="Waiting for event to start" />
+              <NextLink href={`/event/${event.id}`}>
+                <Link
+                  href={`/event/${event.id}`}
+                  variant="body1"
+                  sx={{
+                    display: "inherit",
+                    marginX: 1,
+                    padding: 0.5,
+                  }}
+                  border={1}
+                  borderRadius={2}
+                  underline="always"
+                >
+                  Event page
+                </Link>
+              </NextLink>
+            </Box>
           )}
           {event.status === EventStatus.Active && (
-            <MessageCard message="Waiting for users to join" />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <MessageCard message="Waiting for users to join" />
+              <NextLink href={`/event/${event.id}`}>
+                <Link
+                  href={`/event/${event.id}`}
+                  variant="body1"
+                  sx={{
+                    display: "inherit",
+                    marginX: 1,
+                    padding: 0.5,
+                  }}
+                  border={1}
+                  borderRadius={2}
+                  underline="always"
+                >
+                  Event page
+                </Link>
+              </NextLink>
+            </Box>
           )}
           {event.status === EventStatus.Raffling && (
             <>
@@ -165,7 +227,6 @@ const ManageEventPage = (): JSX.Element => {
                 color="primary"
                 variant="contained"
                 onClick={handleRafflePrizes}
-                sx={{}}
               >
                 Raffle prizes
               </Button>
