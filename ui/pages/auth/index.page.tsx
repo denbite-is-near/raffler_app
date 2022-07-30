@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import { useRootStore } from "providers/RootStoreContext";
 
 const AuthPage = (): JSX.Element => {
