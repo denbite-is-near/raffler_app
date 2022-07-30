@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useRootStore } from "providers/RootStoreContext";
 
 const AuthPage = (): JSX.Element => {
   const router = useRouter();
+  const { authStore } = useRootStore();
 
   useEffect(() => {
     const queryKeysCount = Object.keys(router.query).length;
@@ -17,10 +19,14 @@ const AuthPage = (): JSX.Element => {
 
     if (!allFieldsPresent) return;
 
-    router.push({
-      pathname: "/",
-      query: restQuery,
-    });
+    (async () => {
+      await authStore.updateAuthAccount();
+
+      await router.push({
+        pathname: "/",
+        query: restQuery,
+      });
+    })();
   }, [router.query]);
 
   return (

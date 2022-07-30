@@ -11,9 +11,7 @@ class WalletService {
   constructor(
     @inject(TYPES.NearManager)
     private nearManager: INearManager
-  ) {
-    this.getWallet();
-  }
+  ) {}
 
   private getWallet = async (): Promise<WalletConnection> => {
     // if (this._wallet) return this._wallet;
