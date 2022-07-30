@@ -13,7 +13,7 @@ module.exports = withBundleAnalyzer({
   images: {
     minimumCacheTTL: 300,
   },
-  trailingSlash: true,
+  trailingSlash: false,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false;

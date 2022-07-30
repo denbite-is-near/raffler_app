@@ -77,7 +77,7 @@ const Layout: React.FC = (props): JSX.Element => {
         </Box>
         <Box display="flex">
           <Link
-            href="https://twitter.com/captaincatd"
+            href={process.env.NEXT_PUBLIC_TWITTER_LINK}
             variant="body1"
             target="_blank"
             sx={{
@@ -89,7 +89,7 @@ const Layout: React.FC = (props): JSX.Element => {
             Twitter
           </Link>
           <Link
-            href="https://github.com/denbite-is-near/raffler_app/issues/new"
+            href={process.env.NEXT_PUBLIC_GITHUB_ISSUE_LINK}
             variant="body1"
             target="_blank"
             sx={{
