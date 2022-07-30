@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { observer } from "mobx-react-lite";
 
 import { useRootStore } from "providers/RootStoreContext";
-import { observer } from "mobx-react-lite";
 
 const Page = (): JSX.Element => {
   const router = useRouter();
