@@ -8,7 +8,8 @@
     "build:digitalocean:static": "yarn build && next export -o _static",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "prebuild": "rm -rf build"
   },
   "dependencies": {
     "@date-io/dayjs": "^2.14.0",
@@ -50,5 +51,9 @@
     "esm": "^3.2.25",
     "prettier": "^2.6.0",
     "typescript": "^4.6.2"
+  },
+  "resolutions": {
+    "@types/react": "17.0.47",
+    "@types/react-dom": "17.0.2"
   }
 }

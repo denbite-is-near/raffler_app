@@ -7,9 +7,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
-import { EventEntity } from "entities/EventEntity";
 import { observer } from "mobx-react-lite";
+
+import { EventEntity } from "entities/EventEntity";
 import { useRootStore } from "providers/RootStoreContext";
 
 type AddEventPrizeFormProps = {
@@ -26,7 +26,7 @@ const AddEventPrizeForm = ({ event }: AddEventPrizeFormProps): JSX.Element => {
 
     await addEventPrize.submit(event);
   };
-  
+
   return (
     <Card
       variant="outlined"

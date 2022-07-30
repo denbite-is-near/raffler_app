@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { observer } from "mobx-react-lite";
 import Head from "next/head";
-
-import { NextPageWithLayout } from "./_app.page";
-import ConnectWalletButton from "components/Buttons/ConnectWalletButton";
-import { useRootStore } from "providers/RootStoreContext";
-import withAuth from "hocs/withAuth";
 import {
   Box,
   Button,
@@ -16,13 +11,17 @@ import {
   TextField,
   Typography,
   CardHeader,
-  CardActions,
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers";
+
+import { useRootStore } from "providers/RootStoreContext";
+import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
 
+import { NextPageWithLayout } from "./_app.page";
+
 const CreateEventPage = (): JSX.Element => {
-  const { authStore, eventStore, formStore } = useRootStore();
+  const { authStore, formStore } = useRootStore();
 
   const { createEvent } = formStore;
 
@@ -137,7 +136,7 @@ const CreateEventPage = (): JSX.Element => {
                   variant="contained"
                   onClick={handleSubmit}
                   sx={{
-                    marginTop: 2
+                    marginTop: 2,
                   }}
                 >
                   Create

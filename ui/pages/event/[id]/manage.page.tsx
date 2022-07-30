@@ -1,15 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
 import Head from "next/head";
-
-import { useRootStore } from "providers/RootStoreContext";
-import withAuth from "hocs/withAuth";
-import Layout from "components/Layout";
-import { NextPageWithLayout } from "pages/_app.page";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import SkeletonWrapper from "components/SkeletonWrapper";
 import {
   Box,
   Button,
@@ -19,12 +12,18 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { EventStatus } from "types";
 import { utils } from "near-api-js";
+import NextLink from "next/link";
+
+import { useRootStore } from "providers/RootStoreContext";
+import withAuth from "hocs/withAuth";
+import Layout from "components/Layout";
+import { NextPageWithLayout } from "pages/_app.page";
+import SkeletonWrapper from "components/SkeletonWrapper";
+import { EventStatus } from "types";
 import MessageCard from "components/MessageCard";
 import EditEventTimelineForm from "components/Forms/EditEventTimelineForm";
 import AddEventPrizeForm from "components/Forms/AddEventPrizeForm";
-import NextLink from "next/link";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -86,7 +85,7 @@ const ManageEventPage = (): JSX.Element => {
       <Head>
         <title>Raffle App - manage event #{event.id}</title>
       </Head>
-      <Typography variant="h3">Edit "{event.title}"</Typography>
+      <Typography variant="h3">Edit &#34;{event.title}&#34;</Typography>
       <Box
         sx={{
           display: "flex",

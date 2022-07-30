@@ -1,27 +1,19 @@
 import React, { useState } from "react";
 
 import { observer } from "mobx-react-lite";
+import { Box, Button, Paper, styled, Typography } from "@mui/material";
+import Head from "next/head";
+import { utils } from "near-api-js";
+import { useSnackbar } from "notistack";
 
-import { NextPageWithLayout } from "./_app.page";
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Paper,
-  styled,
-  Typography,
-} from "@mui/material";
-import EventList from "components/EventList";
 import SkeletonWrapper from "components/SkeletonWrapper";
-import Head from "next/head";
 import MessageCard from "components/MessageCard";
 import { EventId, EventPrize } from "types";
-import { utils } from "near-api-js";
-import { useSnackbar } from "notistack";
+
+import { NextPageWithLayout } from "./_app.page";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -130,6 +122,7 @@ const Page = (): JSX.Element => {
         <Box>
           {rewards.map((r) => (
             <Box
+              key={`reward-${r.event_id}:${r.prize_index}`}
               sx={{
                 display: "flex",
                 justifyContent: "center",

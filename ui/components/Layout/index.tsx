@@ -1,10 +1,11 @@
 import { Box, Link } from "@mui/material";
-import AccountMenuButton from "components/Buttons/AccountMenuButton";
-import ConnectWalletButton from "components/Buttons/ConnectWalletButton";
-import SkeletonWrapper from "components/SkeletonWrapper";
 import { observer } from "mobx-react-lite";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+
+import AccountMenuButton from "components/Buttons/AccountMenuButton";
+import ConnectWalletButton from "components/Buttons/ConnectWalletButton";
+import SkeletonWrapper from "components/SkeletonWrapper";
 import { useRootStore } from "providers/RootStoreContext";
 
 const Layout: React.FC = (props): JSX.Element => {

@@ -4,18 +4,17 @@ import "@fontsource/cairo";
 import "@fontsource/cairo/600.css";
 import "styles/globals.css";
 
-import { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 
 import type { AppProps } from "next/app";
 import { NextPage } from "next";
 import { enableStaticRendering } from "mobx-react-lite";
-
-import { RootStoreProvider } from "providers/RootStoreContext";
-import AppThemeProvider from "providers/AppThemeProvider";
-import FaviconHead from "components/FaviconHead";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { SnackbarProvider } from "notistack";
+
+import AppThemeProvider from "providers/AppThemeProvider";
+import { RootStoreProvider } from "providers/RootStoreContext";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -41,19 +40,18 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getProviders = (page: JSX.Element) => {
     return (
       <RootStoreProvider>
-        <SnackbarProvider maxSnack={3} autoHideDuration={6000}>
-          <AppThemeProvider>
+        <AppThemeProvider>
+          <SnackbarProvider maxSnack={3} autoHideDuration={6000}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {/* <FaviconHead /> */}
               {getLayout(page)}
             </LocalizationProvider>
-          </AppThemeProvider>
-        </SnackbarProvider>
+          </SnackbarProvider>
+        </AppThemeProvider>
       </RootStoreProvider>
     );
   };
 
-  // @ts-expect-error
   return getProviders(<Component {...pageProps} />);
 }
 

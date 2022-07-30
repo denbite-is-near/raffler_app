@@ -1,70 +1,70 @@
 {
-    "plugins": ["@typescript-eslint", "import", "prettier"],
-    "extends": [
-      "next/core-web-vitals",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:import/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "settings": {
-      "import/resolver": {
-        "node": {
-          "paths": ["."]
-        }
+  "plugins": ["@typescript-eslint", "import", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["."]
       }
-    },
-    "globals": {
-      "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly"
-    },
-    "rules": {
-      // TS
-      "@typescript-eslint/ban-ts-comment": 0,
-      "@typescript-eslint/naming-convention": 0,
-      "@typescript-eslint/no-unused-vars": 2,
-      "@typescript-eslint/no-explicit-any": 1,
-  
-      // Import
-      "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
-      "import/order": [
-        2,
-        {
-          "groups": ["builtin", "external", "internal"],
-          "pathGroups": [
-            {
-              "pattern": "react",
-              "group": "external",
-              "position": "before"
-            }
-          ],
-          "pathGroupsExcludedImportTypes": ["react"],
-          "newlines-between": "always"
-        }
-      ],
-      "import/no-cycle": 1,
-      "import/prefer-default-export": 0,
-  
-      // Default
-      "no-else-return": "off",
-      "linebreak-style": 0,
-      "object-curly-spacing": [2, "always"],
-      "no-debugger": 0,
-  
-      // Prettier
-      "prettier/prettier": [
-        2,
-        {
-          "trailingComma": "es5",
-          "tabWidth": 2,
-          "semi": true,
-          "singleQuote": true,
-          "printWidth": 80,
-          "bracketSpacing": true,
-          "useTabs": false,
-          "cssEnable": ["css", "less", "scss"],
-          "javascriptEnable": ["javascript", "javascriptreact"],
-          "typescriptEnable": ["typescript", "typescriptreact"]
-        }
-      ]
     }
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "rules": {
+    // TS
+    "@typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/naming-convention": 0,
+    "@typescript-eslint/no-unused-vars": 2,
+    "@typescript-eslint/no-explicit-any": 1,
+
+    // Import
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+    "import/order": [
+      2,
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newlines-between": "always"
+      }
+    ],
+    "import/no-cycle": 1,
+    "import/prefer-default-export": 0,
+
+    // Default
+    "no-else-return": "off",
+    "linebreak-style": 0,
+    "object-curly-spacing": [2, "always"],
+    "no-debugger": 0,
+
+    // Prettier
+    "prettier/prettier": [
+      2,
+      {
+        "trailingComma": "es5",
+        "tabWidth": 2,
+        "semi": true,
+        "singleQuote": false,
+        "printWidth": 80,
+        "bracketSpacing": true,
+        "useTabs": false,
+        "cssEnable": ["css", "less", "scss"],
+        "javascriptEnable": ["javascript", "javascriptreact"],
+        "typescriptEnable": ["typescript", "typescriptreact"]
+      }
+    ]
   }
+}

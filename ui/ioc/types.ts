@@ -11,7 +11,6 @@ const TYPES = {
   EventStore: "event.store",
   RewardStore: "reward.store",
   AccountStore: "account.store",
-  ModalStore: "modal.store",
   FormStore: "form.store",
   Contract: "libs.contract",
 };

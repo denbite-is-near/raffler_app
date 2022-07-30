@@ -1,6 +1,7 @@
 import { Edit, Language } from "@mui/icons-material";
 import { IconButton, List, ListItem, ListItemText } from "@mui/material";
 import { useRouter } from "next/router";
+
 import { JsonEvent } from "types";
 
 type EventListProps<T> = {
@@ -30,6 +31,7 @@ const EventList = (props: EventListProps<JsonEvent>) => {
     <List>
       {items.map((item) => (
         <ListItem
+          key={`item-${item.id}`}
           sx={{
             border: "1px solid white",
             borderRadius: 2,

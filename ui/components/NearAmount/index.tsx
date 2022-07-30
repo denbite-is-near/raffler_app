@@ -1,24 +1,24 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
-import type { BoxProps } from '@mui/material';
-import { Box } from '@mui/material';
-import { observer } from 'mobx-react-lite';
+import type { BoxProps } from "@mui/material";
+import { Box } from "@mui/material";
+import { observer } from "mobx-react-lite";
 
-import nearProtocolLogoBlack from 'assets/images/near_logo.black.png';
-import nearProtocolLogoWhite from 'assets/images/near_logo.white.png';
+import nearProtocolLogoBlack from "assets/images/near_logo.black.png";
+import nearProtocolLogoWhite from "assets/images/near_logo.white.png";
 
 export type NearAmountProps = {
   amount: string;
-  mode: 'black' | 'white';
+  mode: "black" | "white";
   boxProps?: BoxProps;
 };
 
 const NearAmount = (props: NearAmountProps): JSX.Element => {
   const coloredLogo = useMemo(() => {
-    if (props.mode === 'black') return nearProtocolLogoBlack;
-    if (props.mode === 'white') return nearProtocolLogoWhite;
+    if (props.mode === "black") return nearProtocolLogoBlack;
+    if (props.mode === "white") return nearProtocolLogoWhite;
 
-    throw new Error('Invalid mode given');
+    throw new Error("Invalid mode given");
   }, [props.mode]);
 
   return (

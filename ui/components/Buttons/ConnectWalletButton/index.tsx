@@ -1,11 +1,11 @@
-import type { ButtonProps } from '@mui/material';
-import { Button } from '@mui/material';
-import { observer } from 'mobx-react-lite';
+import type { ButtonProps } from "@mui/material";
+import { Button } from "@mui/material";
+import { observer } from "mobx-react-lite";
 
-import { useRootStore } from 'providers/RootStoreContext';
+import { useRootStore } from "providers/RootStoreContext";
 
 type ConnectWalletButtonProps = {
-  size?: ButtonProps['size'];
+  size?: ButtonProps["size"];
 };
 
 const ConnectWalletButton = (props: ConnectWalletButtonProps): JSX.Element => {
@@ -18,7 +18,7 @@ const ConnectWalletButton = (props: ConnectWalletButtonProps): JSX.Element => {
   return (
     <Button
       variant="contained"
-      size={props.size || 'medium'}
+      size={props.size || "medium"}
       disableRipple
       disableTouchRipple
       onClick={handleLogin}

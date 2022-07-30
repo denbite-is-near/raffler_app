@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 
 import { observer } from "mobx-react-lite";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 
-import { NextPageWithLayout } from "./_app.page";
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
-import { Box, Card, CardContent, Typography } from "@mui/material";
 import EventList from "components/EventList";
 import SkeletonWrapper from "components/SkeletonWrapper";
+
+import { NextPageWithLayout } from "./_app.page";
 
 const HomePage = (): JSX.Element => {
   const [isOwnedEventsLoading, loadOwnedEventsLoading] = useState(false);
@@ -72,7 +73,7 @@ const HomePage = (): JSX.Element => {
               <Card sx={{ marginY: 2 }} variant="outlined">
                 <CardContent>
                   <Typography textAlign="center">
-                    There's no events to display
+                    There&#39;s no events to display
                   </Typography>
                 </CardContent>
               </Card>
@@ -93,8 +94,8 @@ const HomePage = (): JSX.Element => {
             <Card sx={{ marginY: 2 }} variant="outlined">
               <CardContent>
                 <Typography textAlign="center">
-                  Only authorized users can see events they're participating,
-                  please connect your wallet
+                  Only authorized users can see events they&#39;re
+                  participating, please connect your wallet
                 </Typography>
               </CardContent>
             </Card>
@@ -110,7 +111,7 @@ const HomePage = (): JSX.Element => {
                 <Card sx={{ marginY: 2 }} variant="outlined">
                   <CardContent>
                     <Typography textAlign="center">
-                      There's no events to display
+                      There&#39;s no events to display
                     </Typography>
                   </CardContent>
                 </Card>

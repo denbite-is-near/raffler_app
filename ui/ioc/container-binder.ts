@@ -8,7 +8,6 @@ import container from "./container";
 import TYPES, { NearManagerProvider } from "./types";
 import { AccountStore } from "stores/AccountStore";
 import { nearNetwork } from "config";
-import ModalStore from "stores/ui/ModalStore";
 import { ContractService } from "services/ContractService";
 import { EventStore } from "stores/EventStore";
 import RootFormStore from "stores/form/RootFormStore";
@@ -38,5 +37,3 @@ container.bind(TYPES.EventStore).to(EventStore).inSingletonScope();
 container.bind(TYPES.RewardStore).to(RewardStore).inSingletonScope();
 container.bind(TYPES.AccountStore).to(AccountStore).inSingletonScope();
 container.bind(TYPES.FormStore).to(RootFormStore).inSingletonScope();
-
-container.bind(TYPES.ModalStore).to(ModalStore).inSingletonScope();

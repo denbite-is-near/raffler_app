@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 
 import { observer } from "mobx-react-lite";
 import Head from "next/head";
+import { Box, Button, Link, Paper, styled, Typography } from "@mui/material";
+import { useRouter } from "next/router";
+import { utils } from "near-api-js";
+import NextLink from "next/link";
 
 import { useRootStore } from "providers/RootStoreContext";
 import withAuth from "hocs/withAuth";
 import Layout from "components/Layout";
 import { NextPageWithLayout } from "pages/_app.page";
-import { Box, Button, Link, Paper, styled, Typography } from "@mui/material";
 import MessageCard from "components/MessageCard";
 import SkeletonWrapper from "components/SkeletonWrapper";
-import { useRouter } from "next/router";
 import { EventStatus } from "types";
-import { utils } from "near-api-js";
-import NextLink from "next/link";
 
 const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -132,8 +132,8 @@ const EventPage = (): JSX.Element => {
               Prizes
             </Typography>
             <Box sx={{ display: "flex", marginY: 1, justifyContent: "center" }}>
-              {event.prizes.map(({ prize_type }) => (
-                <Item sx={{ marginX: 0.5 }}>
+              {event.prizes.map(({ prize_type }, index) => (
+                <Item key={`prize-${index}`} sx={{ marginX: 0.5 }}>
                   {utils.format.formatNearAmount(prize_type.amount)}Ⓝ
                 </Item>
               ))}
@@ -182,8 +182,8 @@ const EventPage = (): JSX.Element => {
               <Box
                 sx={{ display: "flex", marginY: 1, justifyContent: "center" }}
               >
-                {event.prizes.map(({ prize_type }) => (
-                  <Item sx={{ marginX: 0.5 }}>
+                {event.prizes.map(({ prize_type }, index) => (
+                  <Item key={`prize-${index}`} sx={{ marginX: 0.5 }}>
                     {utils.format.formatNearAmount(prize_type.amount)}Ⓝ
                   </Item>
                 ))}
@@ -271,8 +271,8 @@ const EventPage = (): JSX.Element => {
               <Box
                 sx={{ display: "flex", marginY: 1, justifyContent: "center" }}
               >
-                {event.prizes.map(({ prize_type }) => (
-                  <Item sx={{ marginX: 0.5 }}>
+                {event.prizes.map(({ prize_type }, index) => (
+                  <Item key={`prize-${index}`} sx={{ marginX: 0.5 }}>
                     {utils.format.formatNearAmount(prize_type.amount)}Ⓝ
                   </Item>
                 ))}
@@ -401,12 +401,14 @@ const EventPage = (): JSX.Element => {
               <Box
                 sx={{ display: "flex", marginY: 1, justifyContent: "center" }}
               >
-                {event.prizes.map(({ prize_type, winner_account_id }) => (
-                  <Item sx={{ marginX: 0.5 }}>
-                    {winner_account_id} (
-                    {utils.format.formatNearAmount(prize_type.amount)}Ⓝ)
-                  </Item>
-                ))}
+                {event.prizes.map(
+                  ({ prize_type, winner_account_id }, index) => (
+                    <Item key={`prize-${index}`} sx={{ marginX: 0.5 }}>
+                      {winner_account_id} (
+                      {utils.format.formatNearAmount(prize_type.amount)}Ⓝ)
+                    </Item>
+                  )
+                )}
               </Box>
             </Box>
             <Box

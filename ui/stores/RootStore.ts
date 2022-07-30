@@ -9,13 +9,11 @@ import { AuthStore } from "./AuthStore";
 import { EventStore } from "./EventStore";
 import RootFormStore from "./form/RootFormStore";
 import { RewardStore } from "./RewardStore";
-import ModalStore from "./ui/ModalStore";
 
 export class RootStore {
   public authStore: AuthStore;
   public accountStore: AccountStore;
 
-  public modalStore: ModalStore;
   public eventStore: EventStore;
   public rewardStore: RewardStore;
   public formStore: RootFormStore;
@@ -27,7 +25,6 @@ export class RootStore {
     this.authStore = container.get(TYPES.AuthStore);
     this.accountStore = container.get(TYPES.AccountStore);
 
-    this.modalStore = container.get(TYPES.ModalStore);
     this.eventStore = container.get(TYPES.EventStore);
     this.rewardStore = container.get(TYPES.RewardStore);
     this.formStore = container.get(TYPES.FormStore);

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import type { SkeletonProps } from '@mui/material';
-import { Skeleton } from '@mui/material';
-import { observer } from 'mobx-react-lite';
+import type { SkeletonProps } from "@mui/material";
+import { Skeleton } from "@mui/material";
+import { observer } from "mobx-react-lite";
 
 export type SkeletonWrapperProps = {
   wrapOn: boolean;
@@ -15,7 +15,7 @@ const SkeletonWrapper: React.FC<SkeletonWrapperProps> = (
 
   return (
     <Skeleton
-      sx={{ backgroundColor: '#eeffee55' }}
+      sx={{ backgroundColor: "#eeffee55" }}
       animation="pulse"
       {...props}
     >
