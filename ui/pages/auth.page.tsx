@@ -4,8 +4,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { useRootStore } from "providers/RootStoreContext";
+import { observer } from "mobx-react-lite";
 
-const AuthPage = (): JSX.Element => {
+const Page = (): JSX.Element => {
   const router = useRouter();
   const { authStore } = useRootStore();
 
@@ -40,4 +41,6 @@ const AuthPage = (): JSX.Element => {
   );
 };
 
-export default AuthPage;
+const ObservedPage = observer(Page);
+
+export default ObservedPage;
