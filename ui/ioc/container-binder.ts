@@ -12,6 +12,7 @@ import ModalStore from "stores/ui/ModalStore";
 import { ContractService } from "services/ContractService";
 import { EventStore } from "stores/EventStore";
 import RootFormStore from "stores/form/RootFormStore";
+import { RewardStore } from "stores/RewardStore";
 
 const nearServiceFactory = async (): Promise<nearApi.Near> => {
   const config = getNearConfig(nearNetwork);
@@ -34,6 +35,7 @@ container.bind(TYPES.ContractService).to(ContractService).inSingletonScope();
 
 container.bind(TYPES.AuthStore).to(AuthStore).inSingletonScope();
 container.bind(TYPES.EventStore).to(EventStore).inSingletonScope();
+container.bind(TYPES.RewardStore).to(RewardStore).inSingletonScope();
 container.bind(TYPES.AccountStore).to(AccountStore).inSingletonScope();
 container.bind(TYPES.FormStore).to(RootFormStore).inSingletonScope();
 

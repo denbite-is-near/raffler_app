@@ -57,6 +57,22 @@ const Layout: React.FC = (props): JSX.Element => {
               Create own event
             </Link>
           </NextLink>
+          <NextLink href="/rewards">
+            <Link
+              href="/rewards"
+              variant="body1"
+              sx={{
+                display: "inherit",
+                marginX: 1,
+                padding: 0.5,
+              }}
+              border={router.asPath === "/rewards" ? 1 : "none"}
+              borderRadius={2}
+              underline={router.asPath === "/rewards" ? "none" : "always"}
+            >
+              Rewards
+            </Link>
+          </NextLink>
         </Box>
         <Box display="flex">
           <Link

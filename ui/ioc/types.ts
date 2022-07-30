@@ -9,6 +9,7 @@ const TYPES = {
   ContractService: "contract.service",
   AuthStore: "auth.store",
   EventStore: "event.store",
+  RewardStore: "reward.store",
   AccountStore: "account.store",
   ModalStore: "modal.store",
   FormStore: "form.store",

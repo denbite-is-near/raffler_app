@@ -8,6 +8,7 @@ import { AccountStore } from "./AccountStore";
 import { AuthStore } from "./AuthStore";
 import { EventStore } from "./EventStore";
 import RootFormStore from "./form/RootFormStore";
+import { RewardStore } from "./RewardStore";
 import ModalStore from "./ui/ModalStore";
 
 export class RootStore {
@@ -16,6 +17,7 @@ export class RootStore {
 
   public modalStore: ModalStore;
   public eventStore: EventStore;
+  public rewardStore: RewardStore;
   public formStore: RootFormStore;
 
   /** Services */
@@ -27,6 +29,7 @@ export class RootStore {
 
     this.modalStore = container.get(TYPES.ModalStore);
     this.eventStore = container.get(TYPES.EventStore);
+    this.rewardStore = container.get(TYPES.RewardStore);
     this.formStore = container.get(TYPES.FormStore);
 
     this.nearService = container.get(TYPES.NearService);

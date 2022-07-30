@@ -41,6 +41,10 @@ const theme = createTheme({
           padding: 0,
           fontSize: "1rem",
           fontWeight: 400,
+          ":disabled": {
+            opacity: 0.5,
+            backgroundColor: "grey !important",
+          },
         },
       },
     },

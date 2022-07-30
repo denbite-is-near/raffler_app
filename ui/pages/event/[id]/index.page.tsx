@@ -40,16 +40,16 @@ const EventPage = (): JSX.Element => {
     })();
   }, [authStore.isLoggedIn]);
 
-  if (isEventLoading)
-    return <SkeletonWrapper variant="rectangular" wrapOn height={250} />;
-
   if (!authStore.isLoggedIn)
     return (
       <MessageCard
         message="Only authorized users can see their events, please connect your
-    wallet"
+  wallet"
       />
     );
+
+  if (isEventLoading)
+    return <SkeletonWrapper variant="rectangular" wrapOn height={250} />;
 
   if (!event) return <MessageCard message="Ooops, no such event found ..." />;
 

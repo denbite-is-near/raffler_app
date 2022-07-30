@@ -15,6 +15,7 @@ import AppThemeProvider from "providers/AppThemeProvider";
 import FaviconHead from "components/FaviconHead";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { SnackbarProvider } from "notistack";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -40,12 +41,14 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getProviders = (page: JSX.Element) => {
     return (
       <RootStoreProvider>
-        <AppThemeProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            {/* <FaviconHead /> */}
-            {getLayout(page)}
-          </LocalizationProvider>
-        </AppThemeProvider>
+        <SnackbarProvider maxSnack={3} autoHideDuration={6000}>
+          <AppThemeProvider>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {/* <FaviconHead /> */}
+              {getLayout(page)}
+            </LocalizationProvider>
+          </AppThemeProvider>
+        </SnackbarProvider>
       </RootStoreProvider>
     );
   };
