@@ -5,7 +5,7 @@ Demo link - https://raffler-app-fbq88.ondigitalocean.app
 Raffler - the application for holding events with rewards, the key feature of it is to help creators/bloggers/communities to engage with their audience
 At this step, only prizes in Near are available, next step is to add NFT/FT prizes which is much more interesting for artists
 
-Built with NEAR, Next.js and Rust, for the Dacade NEAR Challenge
+Built with NEAR, Next.js and Rust, for the Near Certified Developer program
 
 ![app guest view](guest_view_app.png)
 ![app logged account view](logged_view_app.png)
